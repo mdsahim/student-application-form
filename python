@@ -1,0 +1,67 @@
+from fastapi import FastAPI
+
+app = FastAPI()
+
+info = {
+    1: {"name": "xyz", "department": "AI&DS", "age": 25},
+    2: {"name": "abc", "department": "AI&DS", "age": 23}
+}
+
+# 1. Even or Not
+@app.get("/even/{num}")
+def even(num: int):
+    if num % 2 == 0:
+        return {"message": "even"}
+    return {"message": "not even"}
+
+# 2. Factorial
+@app.get("/factorial/{num}")
+def factorial(num: int):
+    fact = 1
+    for i in range(1, num + 1):
+        fact *= i
+    return {"factorial": fact}
+
+# 3. Cube
+@app.get("/cube/{num}")
+def cube(num: int):
+    return {"cube": num ** 3}
+
+# 4. Update department of ID 1
+@app.put("/update_department")
+def update_department():
+    info[1]["department"] = "CSE"
+    return info[1]
+
+# 5. Update age of ID 2
+@app.put("/update_age")
+def update_age():
+    info[2]["age"] = 27
+    return info[2]
+
+# 6. Sum of first N natural numbers
+@app.get("/sum/{num}")
+def total_sum(num: int):
+    s = num * (num + 1) // 2
+    return {"sum": s}
+
+# 7. Count characters
+@app.get("/count/{text}")
+def count(text: str):
+    return {"count": len(text)}
+
+# 8. Power
+@app.get("/power/{a}/{b}")
+def power(a: int, b: int):
+    return {"result": a ** b}
+
+# 9. Delete ID 1 and return deleted record
+@app.delete("/delete/1")
+def delete_record():
+    deleted = info.pop(1)
+    return {"deleted_record": deleted}
+
+# 10. Return all students
+@app.get("/students")
+def students():
+    return info
